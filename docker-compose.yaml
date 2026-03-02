@@ -1,0 +1,17 @@
+services:
+  valkey:
+    image: valkey/valkey:9-alpine
+    container_name: valkey_db
+    volumes:
+      - valkey_data:/data
+
+  mail_service:
+    build: .
+    container_name: mail_worker
+    environment:
+      - VALKEY_ADDR=${VALKEY_ADDR}
+    depends_on:
+      - valkey
+
+volumes:
+  valkey_data:
