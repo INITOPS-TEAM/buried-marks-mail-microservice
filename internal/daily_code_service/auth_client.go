@@ -14,7 +14,7 @@ type EmailsResponse struct {
 
 // Getting mails list from auth service
 func fetchEmailsFromAuth() ([]string, error) {
-	url := "http://auth-backend:8000/api/emails/"
+	url := os.Getenv("SERVICE_URL")
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
