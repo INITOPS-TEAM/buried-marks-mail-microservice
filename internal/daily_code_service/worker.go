@@ -15,7 +15,7 @@ func StartWorker(valkeyClient valkey.Client) error {
 
 	_, err = s.NewJob(
 		//Testing every 60 second code generation
-		//gocron.DurationJob(60*time.Second),
+		//gocron.DurationJob(120*time.Second),
 		gocron.DailyJob(
 			1,
 			gocron.NewAtTimes(gocron.NewAtTime(0, 0, 0)),

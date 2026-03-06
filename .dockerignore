@@ -5,4 +5,4 @@ docker-compose.yaml
 .dockerignore
 README.md
 .idea/
-example.env
+.env.example

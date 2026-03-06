@@ -23,9 +23,9 @@ func ProcessDailyCode(valkeyClient valkey.Client) {
 	slog.Info("starting daily code generation process")
 
 	dailyCode := GenerateToken()
-	key := "daily_code:global"
+	key := os.Getenv("DAILY_CODE_KEY")
 	ctx := context.Background()
-	
+
 	err := valkeyClient.Do(ctx, valkeyClient.B().Set().Key(key).Value(dailyCode).Ex(24*time.Hour).Build()).Error()
 	if err != nil {
 		slog.Error("failed to save daily code to valkey", "err", err)
@@ -74,7 +74,9 @@ func sendEmail(toEmail string, code string) {
 	req.Header.Set("api-key", apiKey)
 	req.Header.Set("content-type", "application/json")
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		slog.Error("network error while sending email", "err", err, "email", toEmail)
