@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/INITOPS-TEAM/buried-marks-mail-microservice/internal/daily_code_service"
+	"github.com/INITOPS-TEAM/buried-marks-mail-microservice/internal/invite_service"
 	"github.com/INITOPS-TEAM/buried-marks-mail-microservice/internal/store"
 )
 
@@ -22,6 +24,14 @@ func main() {
 	if err := daily_code_service.StartWorker(client); err != nil {
 		log.Fatalf("Failed to start worker: %v", err)
 	}
+
+	http.HandleFunc("/api/send-invite", invite_service.HandleSendInvite)
+
+	go func() {
+		if err := http.ListenAndServe(":8080", nil); err != nil {
+			log.Fatalf("HTTP server failed %v", err)
+		}
+	}()
 
 	log.Println("Mail service is running...")
 

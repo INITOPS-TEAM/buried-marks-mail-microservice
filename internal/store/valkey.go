@@ -18,6 +18,7 @@ func InitValkey(addr string) (valkey.Client, error) {
 
 	if err != nil {
 		slog.Error("valkey connection failed", "err", err)
+		return nil, err
 	}
 
 	return client, nil
