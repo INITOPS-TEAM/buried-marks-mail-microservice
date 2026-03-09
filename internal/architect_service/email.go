@@ -28,7 +28,7 @@ func sendArchitectEmail(toEmail string, subject string, customText string) {
 	}
 
 	reqBody := BrevoRequest{
-		Sender:      map[string]string{"email": senderEmail, "name": "Secret Society"},
+		Sender:      map[string]string{"email": senderEmail, "name": "Buried Marks"},
 		To:          []map[string]string{{"email": toEmail}},
 		Subject:     subject,
 		HtmlContent: fmt.Sprintf("<p>%s</p>", customText),

@@ -61,9 +61,9 @@ func sendEmail(toEmail string, code string) {
 	}
 
 	reqBody := BrevoRequest{
-		Sender:      map[string]string{"email": senderEmail, "name": "Secret Society"},
+		Sender:      map[string]string{"email": senderEmail, "name": "Buried Marks"},
 		To:          []map[string]string{{"email": toEmail}},
-		Subject:     "Secret Society: Your Daily Code",
+		Subject:     "Buried Marks: Your Daily Code",
 		HtmlContent: fmt.Sprintf("<h3>Hello!</h3><p>Your new daily code is: <b>%s</b></p>", code),
 	}
 

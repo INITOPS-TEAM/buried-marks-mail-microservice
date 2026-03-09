@@ -37,7 +37,7 @@ func sendInviteEmail(toEmail string, inviteLink string) {
 	`, inviteLink, inviteLink)
 
 	reqBody := BrevoRequest{
-		Sender:      map[string]string{"email": senderEmail, "name": "Secret Society"},
+		Sender:      map[string]string{"email": senderEmail, "name": "Buried Marks"},
 		To:          []map[string]string{{"email": toEmail}},
 		Subject:     "Invitation to register",
 		HtmlContent: htmlBody,
