@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/INITOPS-TEAM/buried-marks-mail-microservice/internal/architect_service"
 	"github.com/INITOPS-TEAM/buried-marks-mail-microservice/internal/daily_code_service"
 	"github.com/INITOPS-TEAM/buried-marks-mail-microservice/internal/invite_service"
 	"github.com/INITOPS-TEAM/buried-marks-mail-microservice/internal/store"
@@ -26,6 +27,7 @@ func main() {
 	}
 
 	http.HandleFunc("/api/send-invite", invite_service.HandleSendInvite)
+	http.HandleFunc("/api/send-architect-email", architect_service.HandleSendArchitectEmail)
 
 	go func() {
 		if err := http.ListenAndServe(":8080", nil); err != nil {
