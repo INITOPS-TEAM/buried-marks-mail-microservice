@@ -40,7 +40,7 @@ func ProcessDailyCode(valkeyClient valkey.Client) {
 	}
 
 	for _, email := range emails {
-		go sendEmail(email, dailyCode)
+		go SendEmail(email, dailyCode)
 	}
 }
 
@@ -51,7 +51,7 @@ type BrevoRequest struct {
 	HtmlContent string              `json:"htmlContent"`
 }
 
-func sendEmail(toEmail string, code string) {
+func SendEmail(toEmail string, code string) {
 	apiKey := os.Getenv("BREVO_API_KEY")
 	senderEmail := os.Getenv("SENDER_EMAIL")
 

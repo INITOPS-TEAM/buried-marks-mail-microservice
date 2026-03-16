@@ -28,6 +28,7 @@ func main() {
 
 	http.HandleFunc("/api/send-invite", invite_service.HandleSendInvite)
 	http.HandleFunc("/api/send-architect-email", architect_service.HandleSendArchitectEmail)
+	http.HandleFunc("/api/send-invite-daily-code", invite_service.HandleSendInviteDailyCode(client))
 
 	go func() {
 		if err := http.ListenAndServe(":8080", nil); err != nil {
