@@ -11,7 +11,7 @@ import (
 
 func StartWorker(valkeyClient valkey.Client) error {
 	ctx := context.Background()
-	key := os.Getenv("DATABASE_KEY")
+	key := os.Getenv("DAILY_CODE_KEY")
 	exists, err := valkeyClient.Do(ctx, valkeyClient.B().Exists().Key(key).Build()).AsInt64()
 
 	if err != nil {
