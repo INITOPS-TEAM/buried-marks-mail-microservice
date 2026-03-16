@@ -33,14 +33,32 @@ func ProcessDailyCode(valkeyClient valkey.Client) {
 	}
 	slog.Info("daily code successfully updated in valkey")
 
-	emails, err := fetchEmailsFromAuth()
-	if err != nil {
-		slog.Error("failed to fetch emails from auth service", "err", err)
+	var emails []string
+	var fetchErr error
+	maxRetries := 5
+
+	for attempt := 1; attempt <= maxRetries; attempt++ {
+		emails, fetchErr = fetchEmailsFromAuth()
+		if fetchErr == nil {
+			break
+		}
+		time.Sleep(3 * time.Second)
+	}
+
+	if fetchErr != nil {
+		slog.Error("failed to fetch emails from auth service after all retries", "err", fetchErr)
+		return
+	}
+
+	slog.Info("successfully fetched emails", "count", len(emails))
+
+	if len(emails) == 0 {
+		slog.Warn("no emails found to send the daily code to")
 		return
 	}
 
 	for _, email := range emails {
-		go sendEmail(email, dailyCode)
+		go SendEmail(email, dailyCode)
 	}
 }
 
@@ -51,7 +69,7 @@ type BrevoRequest struct {
 	HtmlContent string              `json:"htmlContent"`
 }
 
-func sendEmail(toEmail string, code string) {
+func SendEmail(toEmail string, code string) {
 	apiKey := os.Getenv("BREVO_API_KEY")
 	senderEmail := os.Getenv("SENDER_EMAIL")
 
